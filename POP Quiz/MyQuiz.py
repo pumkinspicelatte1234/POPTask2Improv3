@@ -6,13 +6,11 @@ import os
 QUESTION_FILE = "./Questions.txt"
 ANSWER_FILE = "Answers.txt"
 
-st.write("Files in directory:", os.listdir())
-
 
 def load_questions():
 
     questions = []
-
+    st.write("Files in directory:", os.listdir())
     if not os.path.exists(QUESTION_FILE):
         st.error("Sorry, the quiz is not running properly due to unknown reasons")
         return questions
