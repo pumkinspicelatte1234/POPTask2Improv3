@@ -10,8 +10,8 @@ ANSWER_FILE = "Answers.txt"
 def load_questions():
 
     questions = []
-    st.write("Files in directory:", os.listdir())
     if not os.path.exists(QUESTION_FILE):
+        st.write("Files in directory:", os.listdir())
         st.error("Sorry, the quiz is not running properly due to unknown reasons")
         return questions
 
