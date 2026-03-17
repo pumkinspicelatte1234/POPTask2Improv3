@@ -3,16 +3,19 @@ import pandas as pd
 from PIL import Image
 import os
 
-QUESTION_FILE = "./Questions.txt"
-ANSWER_FILE = "Answers.txt"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+QUESTION_FILE = os.path.join(BASE_DIR, "Questions.txt")
+ANSWER_FILE = os.path.join(BASE_DIR, "Answers.txt")
 
 
 def load_questions():
 
     questions = []
+
     if not os.path.exists(QUESTION_FILE):
-        st.write("Files in directory:", os.listdir())
-        st.error("Sorry, the quiz is not running properly due to unknown reasons")
+        st.error("Questions.txt not found")
+        st.write("Files available:", os.listdir(BASE_DIR))
         return questions
 
     with open(QUESTION_FILE, "r") as file:
@@ -23,6 +26,7 @@ def load_questions():
                 continue
 
             parts = line.strip().split("|")
+
             q_type = parts[0]
 
             if q_type == "A":
@@ -39,7 +43,7 @@ def load_questions():
                 question = {
                     "type": "B",
                     "question": parts[1],
-                    "image": parts[2],
+                    "image": os.path.join(BASE_DIR, parts[2]),
                     "options": parts[3:7],
                     "answer": int(parts[7])
                 }
@@ -57,6 +61,9 @@ def run_quiz():
 
     questions = load_questions()
 
+    if len(questions) == 0:
+        st.stop()
+
     if name == "":
         st.stop()
 
@@ -71,8 +78,10 @@ def run_quiz():
         if q["type"] == "B":
 
             if os.path.exists(q["image"]):
+
                 image = Image.open(q["image"])
                 st.image(image, width=300)
+
             else:
                 st.warning(f"Image {q['image']} not found")
 
@@ -99,3 +108,4 @@ def run_quiz():
 
 
 run_quiz()
+
