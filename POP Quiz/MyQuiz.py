@@ -3,8 +3,10 @@ import pandas as pd
 from PIL import Image
 import os
 
-QUESTION_FILE = "Questions.txt"
+QUESTION_FILE = "./Questions.txt"
 ANSWER_FILE = "Answers.txt"
+
+st.write("Files in directory:", os.listdir())
 
 
 def load_questions():
@@ -12,7 +14,7 @@ def load_questions():
     questions = []
 
     if not os.path.exists(QUESTION_FILE):
-        st.error("Questions.txt not found in repository")
+        st.error("Sorry, the quiz is not running properly due to unknown reasons")
         return questions
 
     with open(QUESTION_FILE, "r") as file:
